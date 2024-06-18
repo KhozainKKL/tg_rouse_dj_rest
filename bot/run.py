@@ -15,9 +15,6 @@ from telebot.types import (
 from bot.crud import DatabaseRequestToBot as db
 from django.conf import settings
 
-env = Env()
-env.read_env()
-
 
 logger = logging.getLogger(__name__)
 

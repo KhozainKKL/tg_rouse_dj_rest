@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="main" id="main">
+    <h1>ЛПХ "Науменко"</h1>
+    <img src="../media/Новая папка/logo.jpg" alt="Логотип">
+    <form id="form" datatype="application/json" method="post">
+        <div class="container input-group">
+            <input required="" class="input-user" type="text" name="name" id="user_name">
+            <label class="user-label" for="user_name">Имя</label>
+            <input type="text" required="" class="input-family" name="family" id="user_family">
+            <label class="family-label" for="user_family">Фамилия</label>
+            <input type="number" required="" class="input-phone" name="phone" id="user_phone">
+            <label class="phone-label" for="user_phone">Номер телефона</label>
+            <input type="email" required="" class="input-email" name="email" id="user_email">
+            <label class="email-label" for="user_email">email</label>
+            <div id="error"></div>
+            <p id="name"></p>
+        </div>
+        <button id="order" type="submit">Авторизоваться</button>
+    </form>
+</div>
+{% endblock %}
+{% block js %}
+<script src="{% static 'js/index.js' %}"></script>
+{% endblock %}

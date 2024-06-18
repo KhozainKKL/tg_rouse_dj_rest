@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 from environs import Env
+
+import main.middleware
 
 env = Env()
 env.read_env()
@@ -24,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str("SECRET_KEY")
 TG_API_KEY = env.str("TG_API_KEY")
-LOGGER_LEVEL = env.str("LOGGER_LEVEL")
+LOGLEVEL = env.str("LOGLEVEL")
 LOCAL_SERVER_TG_API_KEY_ID = env.str("LOCAL_SERVER_TG_API_KEY_ID")
 LOCAL_SERVER_TG_API_HASH_ID = env.str("LOCAL_SERVER_TG_API_HASH_ID")
 BASE_URL = env.str("BASE_URL")
@@ -32,7 +35,7 @@ BASE_URL = env.str("BASE_URL")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -46,24 +49,34 @@ INSTALLED_APPS = [
     "bot.apps.BotConfig",
     "api_v1.apps.ApiV1Config",
     "rest_framework",
+    "management.apps.ManagementConfig",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "main.middleware.SecurityHeadersMiddleware",
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 ROOT_URLCONF = "main.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "static/bot/templates",
+            BASE_DIR / "static",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -122,8 +135,10 @@ USER_L10N = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
-
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static', 'bot'),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

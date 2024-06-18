@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="main" id="main">
+    <h1>ЛПХ "Науменко"</h1>
+    <img src="../media/Новая папка/logo.jpg" alt="Логотип">
+    <form id="form" datatype="application/json" method="post">
+        <div class="container input-group">
+            <label class="user-label" for="category">Категория</label>
+            <select class="input-user" id="category">
+                <option value="">--Выберите категорию--</option>
+            </select>
+            <label id="label-sort" class="user-label" for="sort">Сорт</label>
+            <select class="input-user" id="sort">
+                <option value="">--Выберите сорт--</option>
+            </select>
+        </div>
+        <button id="search" type="submit">Поиск</button>
+    </form>
+
+</div>
+{% endblock %}
+{% block js %}
+<script src="{% static 'js/search.js' %}"></script>
+{% endblock %}
